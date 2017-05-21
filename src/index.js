@@ -27,9 +27,9 @@ const getDuration = require('get-video-duration');
 const INFINITY_MS = 999999999;
 
 const faceCam = new Raspicam({
-			mode: "timelapse",
-			output: "../stream/image_stream.jpg",
-			encoding: "jpg",
+			mode: "video",
+			output: "../stream/image_stream.mp4",
+			encoding: "mp4",
 			timeout: INFINITY_MS,
 			timelapse: 2
 });
@@ -76,9 +76,6 @@ startFaceStreaming();
 
 process.stdin.setEncoding('utf8');
 
-process.stdin.on('readable', () => {
-		  var chunk = process.stdin.read();
-			if(chunk !== null) {
-				process.stdout.write(`data: ${chunk}`);
-		  }
-});
+let child = exec(process.stdin.read(), (err, stdout, stderr) => {
+	console.log(stdout);
+})
