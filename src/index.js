@@ -30,7 +30,6 @@ const INFINITY_MS = 999999999;
 const faceCam = new Raspicam({
 			mode: "video",
 			output: "../stream/image_stream.mp4",
-			encoding: "mp4",
 			timeout: INFINITY_MS,
 			timelapse: 2
 });
@@ -86,8 +85,6 @@ if (cluster.isMaster) {
     console.log(`worker ${worker.process.pid} died`);
   });
 }
-
-console.log(cluster.workers[1]);
 
 cluster.workers[1].process.on('readable', () => {
 	var chunk = cluster.workers[1].process.stdin.read();
