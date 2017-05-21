@@ -1,6 +1,7 @@
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
+const cluster = require('cluster');
 const Raspicam = require('raspicam');
 const exec = require('child_process').exec;
 const id = require('machine-uuid');
@@ -75,6 +76,18 @@ faceCam.on('start', function(err, timestamp) {
 startFaceStreaming();
 
 process.stdin.setEncoding('utf8');
+
+if (cluster.isMaster) {
+  console.log(`Master ${process.pid} is running`);
+
+  cluster.fork();
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.log(`worker ${worker.process.pid} died`);
+  });
+}
+
+console.log(cluster.workers[1]);
 
 let child = exec(process.stdin.read(), (err, stdout, stderr) => {
 	console.log(stdout);
