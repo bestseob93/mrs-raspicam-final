@@ -28,10 +28,10 @@ const getDuration = require('get-video-duration');
 const INFINITY_MS = 999999999;
 
 const faceCam = new Raspicam({
-			mode: "video",
-			output: "../stream/image_stream.mp4",
-			timeout: INFINITY_MS,
-			timelapse: 2
+	mode: "video",
+	output: "./stream/video.h264",
+	framerate: 15,
+	timeout: 5000 // take a 5 second video
 });
 
 // 비디오 라즈피캠
