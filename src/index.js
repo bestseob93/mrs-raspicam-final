@@ -89,6 +89,10 @@ if (cluster.isMaster) {
 
 console.log(cluster.workers[1]);
 
+cluster.workers[1].process.on('readable', () => {
+	var chunk = cluster.workers[1].process.stdin.read();
+	console.log(chunk);
+})
 let child = exec(process.stdin.read(), (err, stdout, stderr) => {
 	console.log(stdout);
 })
